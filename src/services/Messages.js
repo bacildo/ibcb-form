@@ -9,3 +9,10 @@ export function sendMessage(body) {
   });
   return response;
 }
+
+export async function getAllMessages() {
+  const response = await axios.get(`${BASE_URL}/messages`, {
+    headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+  });
+  return response.data;
+}

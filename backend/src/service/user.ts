@@ -32,7 +32,7 @@ export class UserService {
   async loginUser(name: string, password: string): Promise<string> {
     const userVerify = await this.repository.findUserByName(name);
     if (!userVerify) {
-      throw new Error("Email incorrect!");
+      throw new Error("Name incorrect!");
     }
 
     const passwordVerify = bcrypt.compareSync(password, userVerify.password);
@@ -40,6 +40,6 @@ export class UserService {
       throw new Error("Password incorrect!");
     }
 
-    return await this.repository.generateToken(userVerify._id.toString());
+    return await this.repository.generateToken(userVerify._id.toString(), userVerify.role);
   }
 }

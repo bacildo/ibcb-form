@@ -34,10 +34,10 @@ export class UserRepository extends Abstract<UserEntity> {
     }
   }
 
-  async generateToken(id: string): Promise<string> {
+  async generateToken(id: string, role:string): Promise<string> {
     try {
-      const token = jwt.sign({ id }, configSecret.secret, {
-        expiresIn: 86400,
+      const token = jwt.sign({ id, role }, configSecret.secret, {
+        expiresIn: "2h",
       });
       return token;
     } catch (error) {

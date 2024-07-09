@@ -28,6 +28,7 @@ export async function validateToken(
   try {
     const decoded = jwt.verify(token, configSecret.secret) as {
       id: string;
+      role:string;
     };
     const user = await userRepository.findUserById(decoded.id);
     if (!user) {

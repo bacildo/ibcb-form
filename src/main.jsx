@@ -7,15 +7,24 @@ import Login from "./pages/Login.jsx";
 import MessageForm from "./pages/MessageForm.jsx";
 import Register from "./pages/Register.jsx";
 import ThankYou from "./pages/ThankYou.jsx";
+import Home from "./pages/Home.jsx";
+import AllMessages from "./pages/AllMessages.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/register",
     element: <Register />,
+    errorElement: <ErrorPage />,
   },
 
   {
@@ -26,6 +35,11 @@ const router = createBrowserRouter([
   {
     path: "/thank-you",
     element: <ThankYou />,
+  },
+  {
+    path: "/all-messages",
+    element: <AllMessages />,
+    errorElement: <ErrorPage />,
   },
 ]);
 

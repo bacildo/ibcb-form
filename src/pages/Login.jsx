@@ -25,16 +25,32 @@ export default function Login() {
     try {
       const token = await loginUser(data);
       Cookies.set("token", token.data, { expires: 1 });
-      navigate("/messages");
+      const decodedToken = parseJwt(token.data);
+      if (decodedToken.role === "admin") {
+        navigate("/");
+      } else {
+        navigate("/messages");
+      }
+
+      console.log(decodedToken);
+      
     } catch (error) {
       setErrorsApi(error.message);
       console.log(error.message);
     }
   }
+  const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      console.error("Failed to parse JWT:", e);
+      return {};
+    }
+  };
 
-  useEffect(()=>{
-    Cookies.remove("token")
-  })
+  useEffect(() => {
+    Cookies.remove("token");
+  });
 
   return (
     <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 w-[35rem] h-[35rem]">
@@ -45,12 +61,7 @@ export default function Login() {
         onSubmit={handleSubmit(handleForm)}
         className="flex flex-col items-center justify-center gap-4 w-full text-2xl"
       >
-        <Input
-          type="text"
-          placeholder="Nome"
-          register={register}
-          name="name"
-        />
+        <Input type="text" placeholder="Nome" register={register} name="name" />
         {errors.name && <ErrorsInput message={errors.name.message} />}
         <Input
           type="password"
