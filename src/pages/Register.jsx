@@ -25,9 +25,13 @@ export default function Register() {
       await registerUser(data);
       navigate("/login");
     } catch (error) {
-      setErrorsApi(error.message);
-      console.log(error.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrorsApi(error.response.data.message);
+      } else {
+        setErrorsApi("Usuário já cadastrado. Tente novamente!");
+      }
     }
+  
   }
   return (
     <div className="flex flex-col items-center justify-around bg-black rounded p-8 w-[35rem] h-[35rem] relative">
