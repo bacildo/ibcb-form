@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import wallet from "../assets/wallet.png";
+import ibcb from "../assets/ibcb.png";
 import Button from "../components/Button";
 import ErrorsInput from "../components/ErrorsInput";
 import Input from "../components/Input";
@@ -53,28 +53,29 @@ export default function Login() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 w-[35rem] h-[35rem]">
-      <img src={wallet} alt="" className="w-44" />
+    <div className="flex flex-col items-center justify-around bg-black rounded p-8 w-[35rem] h-[35rem] text-white relative">
+      <img src={ibcb} alt="" className="w-44" />
       {errorsApi && <ErrorsInput message={errorsApi} />}
 
       <form
         onSubmit={handleSubmit(handleForm)}
         className="flex flex-col items-center justify-center gap-4 w-full text-2xl"
       >
-        <Input type="text" placeholder="Nome" register={register} name="name" />
+        <Input type="text" placeholder="Nome" register={register} name="name" className="bg-white text-black" />
         {errors.name && <ErrorsInput message={errors.name.message} />}
         <Input
           type="password"
           placeholder="Senha"
           register={register}
           name="password"
+          className="bg-white text-black"
         />
         {errors.password && <ErrorsInput message={errors.password.message} />}
-        <Button type="submit" title="Login" />
+        <Button type="submit" title="Login" className="bg-white text-black" />
       </form>
       <p className="text-white text-2xl">
-        Não possui uma conta?
-        <Link to="/register" className="text-lime-300 hover:text-lime-500">
+        Não possui uma conta? {''}
+        <Link to="/register" className="text-teal-300 hover:text-teal-200">
           Clique aqui!
         </Link>{" "}
       </p>

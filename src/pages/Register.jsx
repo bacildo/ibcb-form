@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import wallet from "../assets/wallet.png";
+import ibcb from "../assets/ibcb.png";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
@@ -30,15 +30,16 @@ export default function Register() {
     }
   }
   return (
-    <div className="flex flex-col items-center justify-around bg-zinc-900 rounded p-8 w-[35rem] h-[35rem] relative">
+    <div className="flex flex-col items-center justify-around bg-black rounded p-8 w-[35rem] h-[35rem] relative">
       <Link to="/login">
         <IoArrowBackCircleOutline className="text-white absolute top-3 left-3 text-2xl  hover:text-teal-200" />
       </Link>
-      <img src={wallet} alt="" className="w-44" />
+      <img src={ibcb} alt="" className="w-44" />
       {errorsApi && <ErrorsInput message={errorsApi} />}
+      
       <form
         onSubmit={handleSubmit(handleForm)}
-        className="flex flex-col justify-center gap-4 w-full text-2xl"
+        className="flex flex-col items-center justify-center gap-4 w-full text-2xl"
       >
         <Input type="text" placeholder="Nome" register={register} name="name" />
         {errors.name && <ErrorsInput message={errors.name.message} />}
@@ -59,7 +60,7 @@ export default function Register() {
         {errors.confirmPassword && (
           <ErrorsInput message={errors.confirmPassword.message} />
         )}
-        <Button type="submit" title="CONFIRMAR" />
+        <Button type="submit" title="Confirmar" />
       </form>
     </div>
   );

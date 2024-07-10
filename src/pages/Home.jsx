@@ -1,20 +1,24 @@
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Página Home</h1>
-      <p>Bem-vindo, admin! Aqui você pode acessar todos os registros.</p>
-      <button
-        onClick={() => {
-          navigate("/all-messages"); // Usa navigate para navegar para all-messages
-        }}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-      >
-        Ver Mensagens
-      </button>
+    <div className="bg-black text-white min-h-screen flex items-center justify-center">
+      <div className="container mx-auto p-8 rounded-lg shadow-lg">
+        <h1 className="text-3xl font-bold mb-4">Home</h1>
+        <p className="text-lg mb-4">
+          Bem-vindo, admin! Aqui você pode acessar todos os registros.
+        </p>
+        <Button
+          type="submit"
+          title="Mensagens"
+          onClick={() => {
+            navigate("/all-messages");
+          }}
+        />
+      </div>
     </div>
   );
 };

@@ -1,19 +1,13 @@
-import PropTypes from 'prop-types';
-import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function Button({ title, type, icon, transaction, onClick }) {
+export default function Button({ title, type, onClick }) {
   let SelectIconComponent;
-  const navigate = useNavigate()
-
-  if (icon === "plus") SelectIconComponent = BiPlusCircle;
-  if (icon === "minus") SelectIconComponent = BiMinusCircle;
 
   return (
     <button
       type={type}
-      className="rounded w-full font-bold text-white text-2xl bg-gradient-to-r from-[#00bfff] to-[#00ff14] flex items-center justify-center gap-2"
-      onClick={onClick ? onClick : () => transaction && navigate(`/transaction/${transaction}`)}
+      className="rounded w-fit p-2 font-bold text-black text-2xl bg-white flex items-center justify-center gap-2"
+      onClick={onClick}
     >
       {SelectIconComponent && <SelectIconComponent />} {title}
     </button>
@@ -22,8 +16,6 @@ export default function Button({ title, type, icon, transaction, onClick }) {
 
 Button.propTypes = {
   title: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['submit', 'button']).isRequired,
-  icon: PropTypes.oneOf(['plus', 'minus']),
-  transaction: PropTypes.string,
-  onClick: PropTypes.func
+  type: PropTypes.oneOf(["submit", "button"]).isRequired,
+  onClick: PropTypes.func,
 };
