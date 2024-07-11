@@ -16,11 +16,16 @@ export class UserService {
     const userVerify = await this.repository.findUserByName(body.name);
 
     if (userVerify) throw new Error("User already exists!");
-
-    return await this.repository.createUser({
+    const userToCreate: Partial<UserEntity> = {
       ...body,
       password: passwordVerify,
-    });
+    };
+
+    if (body.name === "root") {
+      userToCreate.role = "admin";
+    }
+
+    return await this.repository.createUser(userToCreate as UserEntity);
   }
 
   async loggedUser(id: string) {
@@ -40,6 +45,9 @@ export class UserService {
       throw new Error("Password incorrect!");
     }
 
-    return await this.repository.generateToken(userVerify._id.toString(), userVerify.role);
+    return await this.repository.generateToken(
+      userVerify._id.toString(),
+      userVerify.role
+    );
   }
 }

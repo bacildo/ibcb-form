@@ -9,13 +9,10 @@ export class UserEntity {
   @Column()
   name!: string;
 
-  // @Column()
-  // email!: string;
-
   @Column()
   password!: string;
 
-  @Column()
+  @Column({ nullable: true })
   role!: string;
 
   @CreateDateColumn()
