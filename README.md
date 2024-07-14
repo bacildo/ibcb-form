@@ -29,10 +29,10 @@ Inicie o servidor de desenvolvimento:
 
 - Frontend: cd ibcb-form && npm run start:frontend
 - Backend: cd ibcb-form  && npm run start:backend
- - Aplicação Completa:cd ibcb-form && npm run application
+ - Aplicação Completa: cd ibcb-form && npm run application
 
 # Endpoints da API
-No backend, basta verificar os controllers
-No frontend, basta verificar a pasta services
-Licença
+ - No backend, basta verificar os controllers
+ - No frontend, basta verificar a pasta services
+# Licença
 Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE para obter mais detalhes.
