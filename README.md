@@ -7,10 +7,10 @@ Este é um aplicativo de gerenciamento de mensagens construído com React, TypeS
  - Validação de entrada para dados de mensagens
 
 # Tecnologias Utilizadas
-Frontend: React, TypeScript, Axios
-Backend: Node.js, Express, TypeScript, MongoDB, TypeORM
-Autenticação: JWT
-Estilização: Tailwind CSS
+ - Frontend: React, TypeScript, Axios
+ - Backend: Node.js, Express, TypeScript, MongoDB, TypeORM
+ - Autenticação: JWT
+ - Estilização: Tailwind CSS
 
 # Como Começar
 Para começar com o projeto, siga estes passos:
@@ -19,17 +19,15 @@ Clone o repositório: git clone https://github.com/bacildo/ibcb-form
 
 # Instale as dependências:
 
-Frontend: cd frontend && npm install
-Backend: cd backend && npm install
-Configure as variáveis de ambiente:
+- Frontend: cd frontend && npm install
+- Backend: cd backend && npm install
+- Configure as variáveis de ambiente: Crie um arquivo development.ts no diretório backend e preencha as variáveis de acordo com sua base de dados.
 
-Crie um arquivo development.ts no diretório backend e preencha as variáveis de acordo com sua base de dados.
-
-Inicie o servidor de desenvolvimento:
+# Inicie o servidor de desenvolvimento:
 
 - Frontend: cd ibcb-form && npm run start:frontend
 - Backend: cd ibcb-form  && npm run start:backend
- - Aplicação Completa: cd ibcb-form && npm run application
+- Aplicação Completa: cd ibcb-form && npm run application
 
 # Endpoints da API
  - No backend, basta verificar os controllers
