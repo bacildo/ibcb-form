@@ -12,24 +12,23 @@ import AllMessages from "./pages/AllMessages.jsx";
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <MessageForm />,
+    errorElement: <ErrorPage />,
+  },
+  {
     path: "/login",
     element: <Login />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/",
+    path: "/home",
     element: <Home />,
     errorElement: <ErrorPage />,
   },
   {
     path: "/register",
     element: <Register />,
-    errorElement: <ErrorPage />,
-  },
-
-  {
-    path: "/messages",
-    element: <MessageForm />,
     errorElement: <ErrorPage />,
   },
   {

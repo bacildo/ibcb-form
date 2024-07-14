@@ -16,3 +16,10 @@ export async function getAllMessages() {
   });
   return response.data;
 }
+
+export function deleteMessage(id) {
+  const response = axios.delete(`${BASE_URL}/messages/${id}`, {
+    headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+  });
+  return response;
+}

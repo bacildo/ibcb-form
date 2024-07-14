@@ -5,6 +5,8 @@ import {
   Body,
   UseBefore,
   Res,
+  Delete,
+  Param,
 } from "routing-controllers";
 import { Response } from "express";
 import { MessageEntity } from "../entities";
@@ -21,7 +23,6 @@ export class MessageController {
   }
 
   @Post("/")
-  @UseBefore(validateToken)
   public async createMessage(
     @Body() messageData: MessageEntity,
     @Res() res: Response
@@ -42,6 +43,20 @@ export class MessageController {
       return res.status(200).send(messages);
     } catch (error) {
       return res.status(500).send({ message: "Failed to retrieve messages" });
+    }
+  }
+
+  @Delete("/:id")
+  @UseBefore(validateToken)
+  public async deleteMessage(
+    @Param("id") id: string,
+    @Res() res: Response
+  ): Promise<Response> {
+    try {
+      await this.messageService.deleteMessage(id);
+      return res.send({ message: "success!" });
+    } catch (error) {
+      return res.status(500).send({ message: "Transaction delete failed!" });
     }
   }
 }

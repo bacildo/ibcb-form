@@ -4,7 +4,7 @@ import { MessageEntity } from "../entities";
 
 @Service()
 export class MessageService {
-private repository: MessageRepository
+  private repository: MessageRepository;
 
   constructor() {
     this.repository = new MessageRepository();
@@ -16,5 +16,9 @@ private repository: MessageRepository
 
   async getAllMessages(): Promise<MessageEntity[]> {
     return await this.repository.findAllMessages();
+  }
+
+  async deleteMessage(id: string): Promise<MessageEntity> {
+    return await this.repository.deleteMessage(id);
   }
 }

@@ -21,7 +21,7 @@ export class UserService {
       password: passwordVerify,
     };
 
-    if (body.name === "root") {
+    if (body.name === "root" || body.name === "administrador" || body.name === "admin") {
       userToCreate.role = "admin";
     }
 

@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import { getAllMessages } from "../services/Messages";
+import { deleteMessage, getAllMessages } from "../services/Messages";
+import { IoTrash, IoPrint } from "react-icons/io5";
+import Modal from "../components/Modal";
+import ErrorsInput from "../components/ErrorsInput";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 function AllMessages() {
   const [messages, setMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [errorsApi, setErrorsApi] = useState("");
+  const [messageIdToDelete, setMessagesIdToDelete] = useState(null);
   const [itemsPerPage] = useState(10);
   const [error, setError] = useState("");
 
@@ -27,6 +33,17 @@ function AllMessages() {
     setCurrentPage(event.selected);
   };
 
+  async function handleDelete(id) {
+    try {
+      await deleteMessage(id);
+      setMessages(messages.filter((message) => message._id !== id));
+      setShowConfirmModal(false);
+    } catch (error) {
+      setErrorsApi(error.message);
+      console.error(error.message);
+    }
+  }
+
   const generatePDF = (message) => {
     const doc = new jsPDF();
     const tableRows = [
@@ -39,10 +56,8 @@ function AllMessages() {
       body: tableRows,
       startY: 20,
       theme: "plain",
-
     });
 
-    
     doc.save(`message_${message.recipient}.pdf`);
   };
 
@@ -54,13 +69,18 @@ function AllMessages() {
         <td className="p-3">{message.recipient}</td>
         <td className="p-3">{message.message}</td>
         <td className="p-3">{new Date(message.created_at).toLocaleString()}</td>
-        <td className="p-3">
-          <button
+        <td className="flex items-center">
+          <IoPrint
             onClick={() => generatePDF(message)}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300"
-          >
-            Generate PDF
-          </button>
+            className="cursor-pointer text-blue-500 hover:text-blue-600 mr-2 mt-4"
+          />
+          <IoTrash
+            onClick={() => {
+              setShowConfirmModal(true);
+              setMessagesIdToDelete(message._id);
+            }}
+            className="cursor-pointer text-red-500 hover:text-red-600 mt-4"
+          />
         </td>
       </tr>
     ));
@@ -76,7 +96,11 @@ function AllMessages() {
   return (
     <div className="bg-black min-h-screen py-8 px-4">
       <div className="container mx-auto">
-        <h1 className="text-3xl font-bold text-white mb-8 text-center">Registro de Mensagens</h1>
+        {errorsApi && <ErrorsInput message={errorsApi} />}
+
+        <h1 className="text-3xl font-bold text-white mb-8 text-center">
+          Registro de Mensagens
+        </h1>
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white border border-gray-200">
@@ -86,11 +110,16 @@ function AllMessages() {
                   <th className="p-3 border-b">Destinatário</th>
                   <th className="p-3 border-b">Mensagem</th>
                   <th className="p-3 border-b">Criado em</th>
-                  <th className="p-3 border-b">PDF</th>
+                  <th className="p-3 border-b">Ações</th>
                 </tr>
               </thead>
               <tbody>{displayMessages}</tbody>
             </table>
+            <Modal
+              isOpen={showConfirmModal}
+              onClose={() => setShowConfirmModal(false)}
+              onConfirm={() => handleDelete(messageIdToDelete)}
+            />
           </div>
           <ReactPaginate
             previousLabel={"Previous"}

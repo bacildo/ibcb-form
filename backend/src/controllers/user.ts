@@ -1,13 +1,10 @@
 import {
   Body,
-  Get,
   JsonController,
   Post,
   Res,
-  UseBefore,
 } from "routing-controllers";
 import { Response } from "express";
-import { validateToken } from "../middlewares";
 import { Service } from "typedi";
 import { UserEntity } from "../entities";
 import { UserService } from "../service";
@@ -22,18 +19,6 @@ export class UserController {
     this.userService = new UserService();
   }
 
-  @Get("/me")
-  @UseBefore(validateToken)
-  public async userLogged(@Res() res: Response): Promise<Response> {
-    const { _id: id } = res.locals.user;
-
-    try {
-      const me = await this.userService.loggedUser(id);
-      return res.status(201).send(me);
-    } catch (error) {
-      return res.status(401).send({ message: "User not found!" });
-    }
-  }
 
   @Post("/register")
   public async registerUser(@Body() user: UserEntity): Promise<UserEntity> {

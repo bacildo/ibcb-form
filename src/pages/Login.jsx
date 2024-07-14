@@ -27,16 +27,10 @@ export default function Login() {
       Cookies.set("token", token.data, { expires: 1 });
       const decodedToken = parseJwt(token.data);
       if (decodedToken.role === "admin") {
-        navigate("/");
-      } else {
-        navigate("/messages");
+        navigate("/home");
       }
-
-      console.log(decodedToken);
-      
     } catch (error) {
       setErrorsApi(error.message);
-      console.log(error.message);
     }
   }
   const parseJwt = (token) => {
@@ -61,7 +55,13 @@ export default function Login() {
         onSubmit={handleSubmit(handleForm)}
         className="flex flex-col items-center justify-center gap-4 w-full text-2xl"
       >
-        <Input type="text" placeholder="Nome" register={register} name="name" className="bg-white text-black" />
+        <Input
+          type="text"
+          placeholder="Nome"
+          register={register}
+          name="name"
+          className="bg-white text-black"
+        />
         {errors.name && <ErrorsInput message={errors.name.message} />}
         <Input
           type="password"
@@ -74,7 +74,7 @@ export default function Login() {
         <Button type="submit" title="Login" className="bg-white text-black" />
       </form>
       <p className="text-white text-2xl">
-        Não possui uma conta? {''}
+        Não possui uma conta? {""}
         <Link to="/register" className="text-teal-300 hover:text-teal-200">
           Clique aqui!
         </Link>{" "}
