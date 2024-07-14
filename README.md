@@ -2,9 +2,9 @@
 Este é um aplicativo de gerenciamento de mensagens construído com React, TypeScript, Node.js, Express e MongoDB. Ele permite aos usuários enviar mensagens a alguem e ao administrador credenciado a gerenciar as mesmas, sendo imprimindo ou excluindo.
 
 # Funcionalidades
-Autenticação e autorização de usuários
-Operações CRUD para mensagens
-Validação de entrada para dados de mensagens
+ - Autenticação e autorização de usuários
+ - Operações CRUD para mensagens
+ - Validação de entrada para dados de mensagens
 
 # Tecnologias Utilizadas
 Frontend: React, TypeScript, Axios
@@ -24,11 +24,12 @@ Backend: cd backend && npm install
 Configure as variáveis de ambiente:
 
 Crie um arquivo development.ts no diretório backend e preencha as variáveis de acordo com sua base de dados.
+
 Inicie o servidor de desenvolvimento:
 
-Frontend: cd ibcb-form && npm run start:frontend
-Backend: cd ibcb-form  && npm run start:backend
-Aplicação Completa:cd ibcb-form && npm run application
+- Frontend: cd ibcb-form && npm run start:frontend
+- Backend: cd ibcb-form  && npm run start:backend
+ - Aplicação Completa:cd ibcb-form && npm run application
 
 # Endpoints da API
 No backend, basta verificar os controllers
