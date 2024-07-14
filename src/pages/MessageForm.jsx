@@ -14,7 +14,7 @@ export default function MessageForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (message.split(" ").length > 3000) {
+    if (message.split(" ").length > 7000) {
       setErrorsApi("A mensagem não pode exceder 3000 palavras.");
       return;
     }
@@ -70,6 +70,7 @@ export default function MessageForm() {
                 required
               />
             </div>
+            <footer>A mensagem n</footer>
             <Button type="submit" title="Enviar" />
           </form>
         </div>
