@@ -4,12 +4,15 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "setup:backend": "cd backend && npm i",
+    "build:backend": "cd backend && npm run build",
+    "start:backend": "cd backend && npm run start",
     "start:frontend": "vite --host localhost --port 5173 --open /",
+    "application": "npm run setup:backend && npm run build:backend && concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start:backend": "concurrently \"cd backend && npm start\"",
-    "application": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "browserslist:update": "npx update-browserslist-db@latest --yes"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

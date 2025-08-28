@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 import { Service } from "typedi";
 import { configSecret } from "../../config";
-import { UserEntity } from "../../entities";
+import { UserEntity } from "../../entities/mongodb/user";
 import { Database } from "../../initialization";
 import { Abstract } from "../abstract/abstract";
 
@@ -14,10 +14,7 @@ export class UserRepository extends Abstract<UserEntity> {
 
   async findUserById(id: string): Promise<UserEntity | null> {
     try {
-      const result = await this.mongoRepository.findOne({
-        where: { _id: new ObjectId(id) },
-      });
-      return result;
+      return await this.mongoRepository.findOne({ where: { _id: new ObjectId(id) } });
     } catch (error) {
       throw new Error(`${error}, User not found`);
     }
@@ -25,37 +22,27 @@ export class UserRepository extends Abstract<UserEntity> {
 
   async findUserByName(name: string): Promise<UserEntity | null> {
     try {
-      const result = await this.mongoRepository.findOne({
-        where: { name: name },
-      });
-      return result;
+      return await this.mongoRepository.findOne({ where: { name } });
     } catch (error) {
       throw new Error(`${error}, User not found`);
     }
   }
 
-  async generateToken(id: string, role:string): Promise<string> {
-    try {
-      const token = jwt.sign({ id, role }, configSecret.secret, {
-        expiresIn: "2h",
-      });
-      return token;
-    } catch (error) {
-      console.error(error);
-      throw new Error("Failed to generate token");
-    }
+  async generateToken(id: string, role: string, opts?: { firstLogin?: boolean }): Promise<string> {
+    const expiresIn = opts?.firstLogin ? "15m" : "2h";
+    const mcp = !!opts?.firstLogin;
+    return jwt.sign({ id, role, mcp }, configSecret.secret, { expiresIn });
   }
 
   async createUser(user: UserEntity): Promise<UserEntity> {
     try {
-      const result = await this.mongoRepository.save(user);
-      return result;
+      return await this.mongoRepository.save(user);
     } catch (error) {
       throw new Error(`${error}, User not created`);
     }
   }
 
-  async editUser(id: string, user: UserEntity): Promise<UserEntity> {
+  async editUser(id: string, user: Partial<UserEntity>): Promise<UserEntity> {
     try {
       const updatedUser = await this.mongoRepository.findOneAndUpdate(
         { _id: new ObjectId(id) },
@@ -72,33 +59,18 @@ export class UserRepository extends Abstract<UserEntity> {
   }
 
   async deleteUser(id: ObjectId): Promise<string | void> {
-    try {
-      const result = await this.mongoRepository.deleteOne({
-        _id: new ObjectId(id),
-      });
-
-      if (result.deletedCount === 0) {
-        throw new Error(`User with id ${id} not found`);
-      }
-      return `User with id ${id} deleted successfully`;
-    } catch (error) {
-      throw new Error(`${error}, User not deleted`);
-    }
+    const result = await this.mongoRepository.deleteOne({ _id: new ObjectId(id) });
+    if (result.deletedCount === 0) throw new Error(`User with id ${id} not found`);
+    return `User with id ${id} deleted successfully`;
   }
 
   async updateUserRole(id: string, role: string): Promise<UserEntity> {
-    try {
-      const updatedUser = await this.mongoRepository.findOneAndUpdate(
-        { _id: new ObjectId(id) },
-        { $set: { role: role } },
-        { returnDocument: "after" }
-      );
-      if (!updatedUser || updatedUser.value === null) {
-        throw new Error(`User with id ${id} not found`);
-      }
-      return updatedUser.value;
-    } catch (error) {
-      throw new Error(`${error}, User role not updated`);
-    }
+    const updatedUser = await this.mongoRepository.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: { role } },
+      { returnDocument: "after" }
+    );
+    if (!updatedUser || updatedUser.value === null) throw new Error(`User with id ${id} not found`);
+    return updatedUser.value;
   }
 }
