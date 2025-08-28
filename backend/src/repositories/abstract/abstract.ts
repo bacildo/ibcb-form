@@ -13,21 +13,31 @@ import {
 
 @Service()
 export abstract class Abstract<T extends ObjectLiteral> {
-  protected constructor(
-    private readonly dataSource: DataSource,
-    private readonly entity: ObjectType<T>
-  ) {}
+  protected constructor(private readonly dataSource: DataSource, private readonly entity: ObjectType<T>) {}
 
+  // ---------- REPOSITORIES ----------
+  // MySQL
   protected get mySqlRepository(): Repository<T> {
+    this.ensureInitialized();
     return this.dataSource.getRepository(this.entity);
   }
 
+  // MongoDB (o que você usa)
   protected get mongoRepository(): MongoRepository<T> {
+    this.ensureInitialized();
     return this.dataSource.getMongoRepository(this.entity);
   }
 
   protected get manager(): EntityManager {
+    this.ensureInitialized();
     return this.dataSource.manager;
+  }
+
+  // ---------- HELPERS ----------
+  private ensureInitialized() {
+    if (!this.dataSource?.isInitialized) {
+      throw new Error("DataSource not initialized. Call Database.connectMongo() before using repositories.");
+    }
   }
 
   /*** MySql Only ***/
@@ -53,7 +63,6 @@ export abstract class Abstract<T extends ObjectLiteral> {
   /*** MySql Only ***/
   protected async remove(options: FindOneOptions): Promise<void> {
     const entity = await this.findOne(options);
-
-    if (entity) this.mySqlRepository.remove(entity);
+    if (entity) await this.mySqlRepository.remove(entity);
   }
 }

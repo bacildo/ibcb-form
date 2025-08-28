@@ -2,11 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && node dist/index.js",
-    "build": "rimraf ./dist && tsc -p .",
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc -p .",
+    "start": "node --enable-source-maps dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules --no-notify src/index.ts",
     "typeorm": "typeorm-ts-node-commonjs"
   },

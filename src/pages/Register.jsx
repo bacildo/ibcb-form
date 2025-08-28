@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import ibcb from "../assets/ibcb.png";
+import ibcb from "../assets/ibcb.jpg";
 import Button from "../components/Button";
 import Input from "../components/Input";
 import { IoArrowBackCircleOutline } from "react-icons/io5";

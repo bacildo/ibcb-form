@@ -15,6 +15,18 @@ export class UserEntity {
   @Column({ nullable: true })
   role!: string;
 
+  @Column({ default: false })
+  mustChangePassword!: boolean;
+
+  @Column({ nullable: true })
+  passwordUpdatedAt?: Date;
+
+  @Column({ nullable: true })
+  resetTokenHash?: string;
+
+  @Column({ nullable: true })
+  resetTokenExpiresAt?: Date;
+
   @CreateDateColumn()
   created_at!: Date;
 }
